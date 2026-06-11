@@ -57,10 +57,9 @@ function App() {
         </button>
       </div>
 
-      
       <main>
         <h1>Add a Company</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="company">Company Name</label>
           <input type="text" id="company" placeholder="e.g. Google" />
 
@@ -79,5 +78,5 @@ function App() {
     </>
   )
 }
-
+  
 export default App
