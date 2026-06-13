@@ -215,7 +215,7 @@ button[type="submit"]:hover {
     flex: none;
     text-align: center;
     white-space: nowrap;
-    font-size: 0.85rem;
+    font-size: 1rem;
     padding: 0.75rem 0.5rem;
   }
 
