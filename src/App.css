@@ -12,7 +12,7 @@ body {
 /* Navbar styles */
 nav {
   background-color: #333;
-  padding: 1.5rem 2rem;
+  padding: 1.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -178,7 +178,7 @@ button[type="submit"]:hover {
 
 @media (max-width: 768px) {
   nav {
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1rem;
     align-items: center;
     gap: 1rem;
   }
