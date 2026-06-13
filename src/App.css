@@ -16,7 +16,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px;
+  min-height: 80px;
+  width: 100%;
 }
 
 .logo {
@@ -181,7 +182,6 @@ button[type="submit"]:hover {
     padding: 1.5rem 1rem;
     align-items: center;
     gap: 1rem;
-    width: 100%;
   }
 
   .logo {
