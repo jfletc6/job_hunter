@@ -12,7 +12,7 @@ body {
 /* Navbar styles */
 nav {
   background-color: #333;
-  padding: 1.25rem 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -180,7 +180,7 @@ button[type="submit"]:hover {
   nav {
     flex-direction: column;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: 1.25rem 1rem;
   }
 
   .search-bar {
