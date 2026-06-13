@@ -207,12 +207,11 @@ button[type="submit"]:hover {
 
   .tabs {
     overflow-x: auto;
-    justify-content: stretch;
-    padding: 0;
+    justify-content: flex-start;
+    padding: 0 1rem;
   }
 
   .tab {
-    flex: none;
     text-align: center;
     white-space: nowrap;
     font-size: 1rem;
