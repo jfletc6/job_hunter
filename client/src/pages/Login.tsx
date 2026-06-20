@@ -1,37 +1,57 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ identifier: '', password: '' })
+  const [error, setError] = useState('')
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: connect to backend auth
+    setError('')
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.message || 'Login failed')
+        return
+      }
+      login(data.token, data.user)
+      navigate('/')
+    } catch (err) {
+      setError('Server error, please try again')
+    }
   }
 
   return (
     <div className="auth-page">
       <div className="auth-logo">
-        <img src="/darkmode_icon.png" alt="logo" />
+        <img src="/darkmode_icon_rmbg.png" alt="logo" />
         <h1>Fletch-Net.io</h1>
       </div>
       <form onSubmit={handleSubmit} className="auth-form">
         <h2>Login</h2>
 
-        <label htmlFor="email">Email</label>
+        {error && <p className="auth-error">{error}</p>}
+
+        <label htmlFor="identifier">Username/Email</label>
         <input
-          type="email"
-          id="email"
-          placeholder="you@example.com"
-          value={form.email}
-          onChange={e => setForm({ ...form, email: e.target.value })}
+          type="text"
+          id="identifier"
+          value={form.identifier}
+          onChange={e => setForm({ ...form, identifier: e.target.value })}
         />
 
         <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
-          placeholder="••••••••"
           value={form.password}
           onChange={e => setForm({ ...form, password: e.target.value })}
         />

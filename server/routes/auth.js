@@ -35,13 +35,15 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     try {
-        const { username, password } = req.body
+        const { identifier, password } = req.body
 
-        if (!username || !password) {
-            return res.status(400).json({ message: "Username and password are required" });
+        if (!identifier || !password) {
+            return res.status(400).json({ message: "Username/email and password are required" });
         }
 
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({
+            $or: [{ username: identifier }, { email: identifier }]
+        });
         if (!existingUser) {
             return res.status(401).json({ message: "User not found" });
         }

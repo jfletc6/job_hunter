@@ -23,7 +23,6 @@ export default function AddCompany() {
 
   return (
     <>
-      <NavBar />
       <div className="tabs">
         <button className="tab" onClick={() => navigate('/')}>Dashboard</button>
         <button className="tab" onClick={() => navigate('/companies')}>My Companies</button>
