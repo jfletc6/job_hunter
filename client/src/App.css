@@ -205,7 +205,7 @@ main {
 }
 
 main h1 {
-  color: #4CC91F;
+  color: #4cc91f;
   margin-bottom: 1rem;
   font-size: 2rem;
 }
@@ -227,7 +227,8 @@ label {
   font-size: 0.9rem;
 }
 
-form input, textarea {
+form input,
+textarea {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border: 1px solid #555;
@@ -237,7 +238,8 @@ form input, textarea {
   width: 100%;
 }
 
-form input::placeholder, textarea::placeholder {
+form input::placeholder,
+textarea::placeholder {
   color: #aaa;
 }
 
@@ -292,7 +294,7 @@ button[type="submit"]:hover {
 }
 
 .auth-form h2 {
-  color: #4CC91F;
+  color: #4cc91f;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   text-align: center;
@@ -305,12 +307,81 @@ button[type="submit"]:hover {
 }
 
 .auth-switch a {
-  color: #4CC91F;
+  color: #4cc91f;
   text-decoration: none;
 }
 
 .auth-switch a:hover {
   text-decoration: underline;
+}
+
+/* Company list */
+.company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 500px;
+  max-width: 100%;
+}
+
+.company-card {
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.company-card h3 {
+  color: #4cc91f;
+  font-size: 1.25rem;
+}
+
+.company-card p {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.company-card .card-label {
+  color: #ccc;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.company-card .card-value {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.company-card a {
+  color: #aaa;
+  font-size: 0.9rem;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.company-card a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.company-card button {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.company-card button:hover {
+  background-color: #777;
 }
 
 @media (max-width: 768px) {
@@ -360,6 +431,10 @@ button[type="submit"]:hover {
   }
 
   form {
+    width: 100%;
+  }
+
+  .company-list {
     width: 100%;
   }
 }

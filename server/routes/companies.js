@@ -1,12 +1,15 @@
 import express from 'express'
 import Company from '../models/Company.js'
+import requireAuth from '../middleware/requireAuth.js'
 
 const router = express.Router()
 
-// Get all companies
+router.use(requireAuth)
+
+// Get all companies for the logged-in user
 router.get('/', async (req, res) => {
   try {
-    const companies = await Company.find()
+    const companies = await Company.find({ userId: req.userId })
     res.json(companies)
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -15,7 +18,7 @@ router.get('/', async (req, res) => {
 
 // Add a company
 router.post('/', async (req, res) => {
-  const company = new Company(req.body)
+  const company = new Company({ ...req.body, userId: req.userId })
   try {
     const newCompany = await company.save()
     res.status(201).json(newCompany)
@@ -27,7 +30,11 @@ router.post('/', async (req, res) => {
 // Delete a company
 router.delete('/:id', async (req, res) => {
   try {
-    await Company.findByIdAndDelete(req.params.id)
+    const company = await Company.findOne({ _id: req.params.id, userId: req.userId })
+    if (!company) {
+      return res.status(404).json({ message: 'Company not found' })
+    }
+    await company.deleteOne()
     res.json({ message: 'Company deleted' })
   } catch (err) {
     res.status(500).json({ message: err.message })

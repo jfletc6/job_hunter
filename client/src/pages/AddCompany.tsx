@@ -1,23 +1,41 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-type Company = {
-  name: string
-  url: string
-  keywords: string
-  notes: string
-}
+import { useAuth } from '../context/AuthContext'
 
 export default function AddCompany() {
   const navigate = useNavigate()
-  const [companies, setCompanies] = useState<Company[]>([])
+  const { token } = useAuth()
   const [form, setForm] = useState({ name: '', url: '', keywords: '', notes: '' })
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
     if (!form.name || !form.url) return
-    setCompanies([...companies, form])
-    setForm({ name: '', url: '', keywords: '', notes: '' })
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/companies`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: form.name,
+          url: form.url,
+          keywords: form.keywords.split(',').map(k => k.trim()).filter(Boolean),
+          notes: form.notes,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.message || 'Failed to add company')
+        return
+      }
+      setForm({ name: '', url: '', keywords: '', notes: '' })
+    } catch (err) {
+      setError('Server error, please try again')
+    }
   }
 
   return (
@@ -29,6 +47,9 @@ export default function AddCompany() {
       </div>
       <main>
         <h1>Add a Company</h1>
+
+        {error && <p className="auth-error">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <label htmlFor="company">Company Name</label>
           <input

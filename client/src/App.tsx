@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import AddCompany from './pages/AddCompany'
+import MyCompanies from './pages/MyCompanies'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/add-company" element={<AddCompany />} />
+          <Route path="/companies" element={<MyCompanies />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
