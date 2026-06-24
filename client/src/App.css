@@ -384,8 +384,163 @@ button[type="submit"]:hover {
   background-color: #777;
 }
 
+/* Dashboard */
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-loading {
+  padding: 3rem;
+  text-align: center;
+  color: #aaa;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #333;
+  color: #aaa;
+}
+
+.dashboard-card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.05rem;
+  color: white;
+}
+
+.empty-state {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Pipeline */
+.pipeline-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pipeline-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.pipeline-count {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.pipeline-label {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* Needs attention */
+.attention-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.attention-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-left: 3px solid #4cc91f;
+  padding-left: 0.6rem;
+}
+
+.attention-days {
+  font-size: 0.75rem;
+  color: #4cc91f;
+  white-space: nowrap;
+  margin-left: 0.75rem;
+}
+
+/* Applications list */
+.applications-list,
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.application-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.status-interested {
+  background: #2a2a2a;
+  color: #bbb;
+}
+.status-applied {
+  background: #1d3a5f;
+  color: #7ab6ff;
+}
+.status-interviewing {
+  background: #4a3b1d;
+  color: #e0b04a;
+}
+.status-offer {
+  background: #1d4a2a;
+  color: #5fd97e;
+}
+.status-rejected {
+  background: #4a1d1d;
+  color: #e05a5a;
+}
+.status-withdrawn {
+  background: #2a2a2a;
+  color: #888;
+}
+
+/* Activity feed */
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.activity-date {
+  color: #4cc91f;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 768px) {
   nav {
+    flex-wrap: wrap;
     padding: 1.5rem 1rem;
     align-items: center;
     gap: 1rem;
@@ -436,5 +591,13 @@ button[type="submit"]:hover {
 
   .company-list {
     width: 100%;
+  }
+
+  .user-circle {
+    margin-left: auto;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
 }
