@@ -79,7 +79,7 @@ function daysSince(dateStr: string): number {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  // const { token } = useAuth();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
 
