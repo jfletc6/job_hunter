@@ -228,13 +228,14 @@ label {
 }
 
 form input,
+form select,
 textarea {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border: 1px solid #555;
   border-radius: 4px;
   background-color: #222;
-  color: white;
+  color: #aaa;
   width: 100%;
 }
 
@@ -246,6 +247,11 @@ textarea::placeholder {
 textarea {
   resize: vertical;
   height: 80px;
+}
+
+form select option {
+  background-color: #222;
+  color: #aaa;
 }
 
 button[type="submit"] {
@@ -313,6 +319,11 @@ button[type="submit"]:hover {
 
 .auth-switch a:hover {
   text-decoration: underline;
+}
+
+.auth-error {
+  color: white;
+  font-size: 0.9rem;
 }
 
 /* Company list */
@@ -474,7 +485,63 @@ button[type="submit"]:hover {
   margin-left: 0.75rem;
 }
 
-/* Applications list */
+/* Activity feed */
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.activity-date {
+  color: #4cc91f;
+  font-size: 0.8rem;
+}
+
+.application-group {
+  margin-bottom: 2rem;
+}
+
+.company-heading {
+  color: white;
+  text-decoration: underline;
+  margin-bottom: 0.75rem;
+}
+
+.application-sublist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.application-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.application-row .status-badge {
+  margin-left: 0.75rem;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid #555;
+  color: #e05a5a;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #4a1d1d;
+}
+
+/* My Applications */
 .applications-list,
 .activity-list {
   list-style: none;
@@ -526,16 +593,71 @@ button[type="submit"]:hover {
   color: #888;
 }
 
-/* Activity feed */
-.activity-item {
+/* My Applications page layout */
+.applications-page {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 900px;
+  width: 100%;
 }
 
-.activity-date {
-  color: #4cc91f;
-  font-size: 0.8rem;
+.application-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #333;
+}
+
+.company-heading {
+  color: white;
+  text-decoration: underline;
+  margin-bottom: 0.75rem;
+}
+
+.application-sublist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.application-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.application-row:last-child {
+  border-bottom: none;
+}
+
+.application-row .status-badge {
+  margin-left: 0.75rem;
+}
+
+.application-row strong {
+  color: white;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid #555;
+  color: #e05a5a;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #4a1d1d;
 }
 
 @media (max-width: 768px) {

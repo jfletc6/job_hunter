@@ -56,6 +56,10 @@ export default function AddCompany() {
           My Companies
         </button>
         <button className="tab active">Add Company</button>
+        <button className="tab" onClick={() => navigate("/applications")}>
+          My Applications
+        </button>
+        <button className="tab active">Add Application</button>
       </div>
       <main>
         <h1>Add a Company</h1>

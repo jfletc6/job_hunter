@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import AddCompany from "./pages/AddCompany";
 import MyCompanies from "./pages/MyCompanies";
 import Dashboard from "./pages/Dashboard";
+import AddApplication from "./pages/AddApplication";
+import MyApplications from "./pages/MyApplications";
 
 function App() {
   return (
@@ -14,12 +16,14 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Navigate to="/add-company" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/add-company" element={<AddCompany />} />
           <Route path="/companies" element={<MyCompanies />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-application" element={<AddApplication />} />
+          <Route path="/applications" element={<MyApplications />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

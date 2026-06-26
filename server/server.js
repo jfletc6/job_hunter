@@ -1,29 +1,32 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import userRouter from './routes/users.js'
-import authRouter from './routes/auth.js'
-import companyRouter from './routes/companies.js'
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import userRouter from "./routes/users.js";
+import authRouter from "./routes/auth.js";
+import companyRouter from "./routes/companies.js";
+import applicationRouter from "./routes/applications.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-const PORT = process.env.PORT || 5000
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, { dbName: "job-hunter" })
+mongoose
+  .connect(process.env.MONGO_URI, { dbName: "job-hunter" })
   .then(() => console.log("Successfully connected to MongoDB via Mongoose!"))
-  .catch((err) => console.error(err))
+  .catch((err) => console.error(err));
 
-app.use('/api/auth', authRouter)
-app.use('/api/users', userRouter)
-app.use('/api/companies', companyRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
+app.use("/api/companies", companyRouter);
+app.use("/api/applications", applicationRouter);
 
-app.get('/', (req, res) => res.send('Job Hunter API is running'))
+app.get("/", (req, res) => res.send("Job Hunter API is running"));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-export default app
+export default app;

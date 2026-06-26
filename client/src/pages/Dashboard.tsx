@@ -1,76 +1,30 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
-// ---------------------------------------------
-// TYPES — match these to your future Application model
-// ---------------------------------------------
 type ApplicationStatus =
-  | "interested"
   | "applied"
   | "interviewing"
   | "offer"
-  | "rejected"
-  | "withdrawn";
+  | "rejected";
 
 interface Application {
   _id: string;
-  companyName: string;
+  companyId: { _id: string; name: string };
   jobTitle: string;
   status: ApplicationStatus;
-  dateApplied: string; // ISO date
-  lastActivityDate: string; // ISO date
+  lastUpdated: string; // ISO date
 }
 
-// ---------------------------------------------
-// MOCK DATA — delete once API is wired up
-// ---------------------------------------------
-const MOCK_APPLICATIONS: Application[] = [
-  {
-    _id: "1",
-    companyName: "Acme Corp",
-    jobTitle: "Backend Engineer",
-    status: "interviewing",
-    dateApplied: "2026-06-01",
-    lastActivityDate: "2026-06-10",
-  },
-  {
-    _id: "2",
-    companyName: "Acme Corp",
-    jobTitle: "Frontend Engineer",
-    status: "rejected",
-    dateApplied: "2026-05-15",
-    lastActivityDate: "2026-05-22",
-  },
-  {
-    _id: "3",
-    companyName: "Globex",
-    jobTitle: "Full Stack Developer",
-    status: "applied",
-    dateApplied: "2026-06-05",
-    lastActivityDate: "2026-06-05",
-  },
-  {
-    _id: "4",
-    companyName: "Initech",
-    jobTitle: "Software Engineer I",
-    status: "offer",
-    dateApplied: "2026-05-01",
-    lastActivityDate: "2026-06-15",
-  },
-];
-
 const STATUS_LABELS: Record<ApplicationStatus, string> = {
-  interested: "Interested",
   applied: "Applied",
   interviewing: "Interviewing",
   offer: "Offer",
   rejected: "Rejected",
-  withdrawn: "Withdrawn",
 };
 
 const NEEDS_ATTENTION_THRESHOLD_DAYS = 7;
-const TERMINAL_STATUSES: ApplicationStatus[] = ["rejected", "withdrawn"];
+const TERMINAL_STATUSES: ApplicationStatus[] = ["rejected"];
 
 function daysSince(dateStr: string): number {
   const diffMs = Date.now() - new Date(dateStr).getTime();
@@ -79,22 +33,34 @@ function daysSince(dateStr: string): number {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  // const { token } = useAuth();
+  const { token } = useAuth();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // TODO: replace with real fetch, e.g.:
-    // fetch(`${import.meta.env.VITE_API_URL}/api/applications`, {
-    //   headers: { Authorization: `Bearer ${token}` }
-    // })
-    //   .then(res => res.json())
-    //   .then(data => setApplications(data))
-    //   .finally(() => setLoading(false))
-
-    setApplications(MOCK_APPLICATIONS);
-    setLoading(false);
-  }, []);
+    const fetchApplications = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/applications`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        const data = await res.json();
+        if (!res.ok) {
+          setError("Failed to load applications");
+          return;
+        }
+        setApplications(data);
+      } catch (err) {
+        setError("Server error, please try again");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApplications();
+  }, [token]);
 
   if (loading) {
     return <div className="dashboard-loading">Loading dashboard...</div>;
@@ -114,14 +80,13 @@ export default function Dashboard() {
   const needsAttention = applications.filter(
     (app) =>
       !TERMINAL_STATUSES.includes(app.status) &&
-      daysSince(app.lastActivityDate) >= NEEDS_ATTENTION_THRESHOLD_DAYS,
+      daysSince(app.lastUpdated) >= NEEDS_ATTENTION_THRESHOLD_DAYS,
   );
 
   const recentActivity = [...applications]
     .sort(
       (a, b) =>
-        new Date(b.lastActivityDate).getTime() -
-        new Date(a.lastActivityDate).getTime(),
+        new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime(),
     )
     .slice(0, 5);
 
@@ -135,9 +100,18 @@ export default function Dashboard() {
         <button className="tab" onClick={() => navigate("/add-company")}>
           Add Company
         </button>
+        <button className="tab" onClick={() => navigate("/applications")}>
+          My Applications
+        </button>
+        <button className="tab" onClick={() => navigate("/add-application")}>
+          Add Application
+        </button>
       </div>
       <main>
         <h1>Dashboard</h1>
+
+        {error && <p className="auth-error">{error}</p>}
+
         <div className="dashboard-grid">
           {/* PIPELINE COUNTS */}
           <section className="dashboard-card pipeline-card">
@@ -168,10 +142,10 @@ export default function Dashboard() {
                 {needsAttention.map((app) => (
                   <li key={app._id} className="attention-item">
                     <div>
-                      <strong>{app.companyName}</strong> — {app.jobTitle}
+                      <strong>{app.companyId?.name}</strong> — {app.jobTitle}
                     </div>
                     <span className="attention-days">
-                      {daysSince(app.lastActivityDate)}d since activity
+                      {daysSince(app.lastUpdated)}d since activity
                     </span>
                   </li>
                 ))}
@@ -182,35 +156,43 @@ export default function Dashboard() {
           {/* ACTIVE APPLICATIONS LIST */}
           <section className="dashboard-card applications-card">
             <h2>Active Applications</h2>
-            <ul className="applications-list">
-              {applications.map((app) => (
-                <li key={app._id} className="application-item">
-                  <div className="application-main">
-                    <strong>{app.companyName}</strong> — {app.jobTitle}
-                  </div>
-                  <span className={`status-badge status-${app.status}`}>
-                    {STATUS_LABELS[app.status]}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            {applications.length === 0 ? (
+              <p className="empty-state">No applications yet.</p>
+            ) : (
+              <ul className="applications-list">
+                {applications.map((app) => (
+                  <li key={app._id} className="application-item">
+                    <div className="application-main">
+                      <strong>{app.companyId?.name}</strong> — {app.jobTitle}
+                    </div>
+                    <span className={`status-badge status-${app.status}`}>
+                      {STATUS_LABELS[app.status]}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
 
           {/* RECENT ACTIVITY */}
           <section className="dashboard-card activity-card">
             <h2>Recent Activity</h2>
-            <ul className="activity-list">
-              {recentActivity.map((app) => (
-                <li key={app._id} className="activity-item">
-                  <span>
-                    {app.companyName} → {STATUS_LABELS[app.status]}
-                  </span>
-                  <span className="activity-date">
-                    {new Date(app.lastActivityDate).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            {recentActivity.length === 0 ? (
+              <p className="empty-state">No recent activity.</p>
+            ) : (
+              <ul className="activity-list">
+                {recentActivity.map((app) => (
+                  <li key={app._id} className="activity-item">
+                    <span>
+                      {app.companyId?.name} → {STATUS_LABELS[app.status]}
+                    </span>
+                    <span className="activity-date">
+                      {new Date(app.lastUpdated).toLocaleDateString()}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
         </div>
       </main>
