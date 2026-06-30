@@ -11,7 +11,6 @@ export default function NavBar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdowns when clicking outside of them
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -33,99 +32,106 @@ export default function NavBar() {
   };
 
   return (
-    <nav className={searchOpen ? "mobile-search-active" : ""}>
-      <div className="logo">
-        <img src="/darkmode_icon_rmbg.png" alt="logo" />
-        <h1>Fletch-Net.io</h1>
-      </div>
-
-      {/* Original desktop search bar — hidden on mobile via CSS */}
-      <div className="search-bar">
-        <input type="text" placeholder="Search..." />
-        <button type="button">
-          <img src="/darkmode_question_rmbg.png" alt="logo" />
-        </button>
-      </div>
-
-      {/* Mobile-only expanded search bar — shown only when searchOpen */}
+    <nav>
+      {/* ── Mobile search expanded state ── */}
       {searchOpen && (
-        <div className="search-bar mobile-search-bar">
-          <input type="text" placeholder="Search..." autoFocus />
-          <button type="button">
-            <img src="/darkmode_question_rmbg.png" alt="search" />
-          </button>
+        <div className="mobile-search-expanded">
           <button
             type="button"
-            className="search-close"
+            className="icon-button search-close-btn"
             onClick={() => setSearchOpen(false)}
             aria-label="Close search"
           >
-            ✕
+            {/* Drop darkmode_close.png into client/public/ and it will appear here */}
+            <img src="/darkmode_close.png" alt="close" />
           </button>
+          <div className="search-bar mobile-search-bar">
+            <input type="text" placeholder="Search..." autoFocus />
+            <button type="button">
+              <img src="/darkmode_question_rmbg.png" alt="search" />
+            </button>
+          </div>
         </div>
       )}
 
-      <div className="nav-right">
-        {/* Original desktop user menu / login */}
-        {user ? (
-          <div className="user-menu desktop-user-menu" ref={menuRef}>
+      {/* ── Normal nav row (always rendered, hidden on mobile when search open) ── */}
+      <div className={`nav-main-row${searchOpen ? " nav-hidden-mobile" : ""}`}>
+        <div className="logo">
+          <img src="/darkmode_icon_rmbg.png" alt="logo" />
+          <h1>Fletch-Net.io</h1>
+        </div>
+
+        {/* Desktop search bar */}
+        <div className="search-bar search-bar-desktop">
+          <input type="text" placeholder="Search..." />
+          <button type="button">
+            <img src="/darkmode_question_rmbg.png" alt="search" />
+          </button>
+        </div>
+
+        <div className="nav-right">
+          {/* Desktop user menu */}
+          {user ? (
+            <div className="user-menu desktop-user-menu" ref={menuRef}>
+              <button
+                className="user-circle"
+                onClick={() => setMenuOpen((prev) => !prev)}
+                title={user.username}
+              >
+                {user.username.charAt(0).toUpperCase()}
+              </button>
+              {menuOpen && (
+                <div className="user-dropdown">
+                  <button className="dropdown-item" onClick={handleLogout}>
+                    Log out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login" className="login-button desktop-user-menu">
+              Login
+            </Link>
+          )}
+
+          {/* Mobile icon triggers */}
+          <button
+            type="button"
+            className="icon-button search-toggle"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Open search"
+          >
+            <img src="/darkmode_question_rmbg.png" alt="search" />
+          </button>
+
+          <div className="user-menu dots-menu" ref={dotsRef}>
             <button
-              className="user-circle"
-              onClick={() => setMenuOpen((prev) => !prev)}
-              title={user.username}
+              type="button"
+              className="icon-button dots-toggle"
+              onClick={() => setDotsOpen((prev) => !prev)}
+              aria-label="Open menu"
             >
-              {user.username.charAt(0).toUpperCase()}
+              {/* Drop darkmode_dots.png into client/public/ and it will appear here */}
+              <img src="/darkmode_dots.png" alt="menu" />
             </button>
-            {menuOpen && (
+            {dotsOpen && (
               <div className="user-dropdown">
-                <button className="dropdown-item" onClick={handleLogout}>
-                  Log out
-                </button>
+                {user ? (
+                  <button className="dropdown-item" onClick={handleLogout}>
+                    Log out
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="dropdown-item"
+                    onClick={() => setDotsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             )}
           </div>
-        ) : (
-          <Link to="/login" className="login-button desktop-user-menu">
-            Login
-          </Link>
-        )}
-
-        {/* Mobile-only icon triggers */}
-        <button
-          type="button"
-          className="icon-button search-toggle"
-          onClick={() => setSearchOpen(true)}
-          aria-label="Open search"
-        >
-          <img src="/darkmode_question_rmbg.png" alt="" />
-        </button>
-
-        <div className="user-menu dots-menu" ref={dotsRef}>
-          <button
-            type="button"
-            className="icon-button dots-toggle"
-            onClick={() => setDotsOpen((prev) => !prev)}
-            aria-label="Open menu"
-          >
-            <img src="/darkmode_dots.png" alt="" />
-          </button>
-          {dotsOpen && (
-            <div className="user-dropdown">
-              {user ? (
-                <button className="dropdown-item" onClick={handleLogout}>
-                  Log out
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="dropdown-item"
-                  onClick={() => setDotsOpen(false)}
-                >
-                  Login
-                </Link>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </nav>
