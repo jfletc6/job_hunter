@@ -126,7 +126,8 @@ A few deployment-specific requirements:
 - [ ] Build frontend session-expiration countdown modal
 - [ ] Verify and harden serverless MongoDB connection caching across invocations
 - [ ] Additional dashboard analytics/widgets
+- [ ] AI-powered email tracking
 
 ## Author
 
-Built by [Joe Fletcher](https://github.com/jfletc6) — CS/EE student, full-stack developer.
+Built by [Joe Fletcher](https://github.com/jfletc6)
