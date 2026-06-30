@@ -39,7 +39,13 @@ nav {
 
 .search-close-btn {
   flex-shrink: 0;
-  transform: rotate(180deg);
+  transform: none;
+  background: none;
+  border: none;
+}
+
+.search-close-btn.icon-button {
+  border: none;
 }
 
 .logo {
