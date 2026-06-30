@@ -167,6 +167,45 @@ nav {
   background-color: #555;
 }
 
+.icon-button {
+  display: none; /* hidden on desktop */
+  background: none;
+  border: 1.5px solid #555;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-button:hover {
+  background-color: #555;
+}
+
+.mobile-search-bar {
+  width: 100%;
+}
+
+.search-close {
+  background: none;
+  border: none;
+  border-left: 1.5px solid #555;
+  color: white;
+  width: 40px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.search-close:hover {
+  background-color: #555;
+}
+
 /* Tabs */
 .tabs {
   display: flex;
@@ -688,6 +727,24 @@ button[type="submit"]:hover {
   .search-bar input {
     width: 100%;
     flex: 1;
+  }
+
+  nav > .search-bar:not(.mobile-search-bar) {
+    display: none;
+  }
+
+  .desktop-user-menu {
+    display: none;
+  }
+
+  .icon-button {
+    display: flex;
+  }
+
+  nav.mobile-search-active .logo,
+  nav.mobile-search-active .search-toggle,
+  nav.mobile-search-active .dots-menu {
+    display: none;
   }
 
   .tabs {
