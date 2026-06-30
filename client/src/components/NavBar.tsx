@@ -42,8 +42,8 @@ export default function NavBar() {
             onClick={() => setSearchOpen(false)}
             aria-label="Close search"
           >
-            {/* Drop darkmode_close.png into client/public/ and it will appear here */}
-            <img src="/darkmode_close.png" alt="close" />
+            {/* Drop darkmode_backarrow.png into client/public/ and it will appear here */}
+            <img src="/darkmode_backarrow.png" alt="backarrow" />
           </button>
           <div className="search-bar mobile-search-bar">
             <input type="text" placeholder="Search..." autoFocus />
