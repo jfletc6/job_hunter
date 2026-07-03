@@ -1,33 +1,40 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const [form, setForm] = useState({ identifier: '', password: '' })
-  const [error, setError] = useState('')
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const [form, setForm] = useState({ identifier: "", password: "" });
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-      const data = await res.json()
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+          credentials: "include", // needed for the httpOnly refresh token cookie
+        },
+      );
+      const data = await res.json();
       if (!res.ok) {
-        setError(data.message || 'Login failed')
-        return
+        setError(data.message || "Login failed");
+        return;
       }
-      login(data.token, data.user)
-      navigate('/')
+
+      // Decode the JWT payload to extract user info (no library needed)
+      const payload = JSON.parse(atob(data.accessToken.split(".")[1]));
+      login(data.accessToken, { id: payload.id, username: form.identifier });
+      navigate("/dashboard");
     } catch (err) {
-      setError('Server error, please try again')
+      setError("Server error, please try again");
     }
-  }
+  };
 
   return (
     <div className="auth-page">
@@ -45,7 +52,7 @@ export default function Login() {
           type="text"
           id="identifier"
           value={form.identifier}
-          onChange={e => setForm({ ...form, identifier: e.target.value })}
+          onChange={(e) => setForm({ ...form, identifier: e.target.value })}
         />
 
         <label htmlFor="password">Password</label>
@@ -53,7 +60,7 @@ export default function Login() {
           type="password"
           id="password"
           value={form.password}
-          onChange={e => setForm({ ...form, password: e.target.value })}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
 
         <button type="submit">Login</button>
@@ -62,5 +69,5 @@ export default function Login() {
         </p>
       </form>
     </div>
-  )
+  );
 }
