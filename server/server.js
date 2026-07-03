@@ -13,11 +13,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = ["https://www.fletch-net.io", "http://localhost:5173"];
+const allowedOrigins = [
+  "https://fletch-net.io",
+  "https://www.fletch-net.io",
+  "http://localhost:5173",
+  /https:\/\/job-hunter-.*-jfletc6s-projects\.vercel\.app/,
+];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const allowed = allowedOrigins.some((o) =>
+        typeof o === "string" ? o === origin : o.test(origin),
+      );
+      allowed
+        ? callback(null, true)
+        : callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   }),
 );
