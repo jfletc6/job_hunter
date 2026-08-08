@@ -10,6 +10,7 @@ import MyCompanies from "./pages/MyCompanies";
 import Dashboard from "./pages/Dashboard";
 import AddApplication from "./pages/AddApplication";
 import MyApplications from "./pages/MyApplications";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -36,7 +37,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/add-application"
             element={
@@ -50,6 +58,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MyApplications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />

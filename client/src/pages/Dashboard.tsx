@@ -2,11 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-type ApplicationStatus =
-  | "applied"
-  | "interviewing"
-  | "offer"
-  | "rejected";
+type ApplicationStatus = "applied" | "interviewing" | "offer" | "rejected";
 
 interface Application {
   _id: string;
@@ -111,7 +107,6 @@ export default function Dashboard() {
         <h1>Dashboard</h1>
 
         {error && <p className="auth-error">{error}</p>}
-
         <div className="dashboard-grid">
           {/* PIPELINE COUNTS */}
           <section className="dashboard-card pipeline-card">

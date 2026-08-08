@@ -85,6 +85,12 @@ export default function NavBar() {
                   <button className="dropdown-item" onClick={handleLogout}>
                     Log out
                   </button>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => navigate("/settings")}
+                  >
+                    Settings
+                  </button>
                 </div>
               )}
             </div>
