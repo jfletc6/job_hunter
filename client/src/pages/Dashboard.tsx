@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import JobReviewModule from "../components/JobReviewModule";
 
 type ApplicationStatus = "applied" | "interviewing" | "offer" | "rejected";
 
@@ -108,6 +109,8 @@ export default function Dashboard() {
 
         {error && <p className="auth-error">{error}</p>}
         <div className="dashboard-grid">
+          {/* JOBS TO REVIEW — main module */}
+          <JobReviewModule />
           {/* PIPELINE COUNTS */}
           <section className="dashboard-card pipeline-card">
             <h2>Pipeline</h2>

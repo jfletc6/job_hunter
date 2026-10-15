@@ -7,6 +7,7 @@ import userRouter from "./routes/users.js";
 import authRouter from "./routes/auth.js";
 import companyRouter from "./routes/companies.js";
 import applicationRouter from "./routes/applications.js";
+import jobRouter from "./routes/jobRoutes.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/companies", companyRouter);
 app.use("/api/applications", applicationRouter);
+app.use("/api/jobs", jobRouter);
 
 app.get("/", (req, res) => res.send("Job Hunter API is running"));
 

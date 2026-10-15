@@ -911,6 +911,131 @@ button[type="submit"]:hover {
   background: #4a1d1d;
 }
 
+/* Job Review Module */
+/* Span the full dashboard grid as the main module */
+.job-review-card {
+  grid-column: 1 / -1;
+}
+
+.job-review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.job-review-badge {
+  background: #2d3748;
+  color: #e2e8f0;
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.job-table-wrap {
+  overflow-x: auto;
+}
+
+.job-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.job-table th,
+.job-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #2d3748;
+  vertical-align: middle;
+}
+.job-table th {
+  color: #a0aec0;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+.job-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.job-table a {
+  color: #63b3ed;
+  text-decoration: none;
+}
+.job-table a:hover {
+  text-decoration: underline;
+}
+.job-table .row-busy {
+  opacity: 0.6;
+}
+
+.job-invalid-url {
+  color: #fc8181;
+}
+
+.job-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+.job-btn {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
+}
+.job-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.job-btn-approve {
+  background: #22543d;
+  color: #c6f6d5;
+  border-color: #2f855a;
+}
+.job-btn-approve:hover:not(:disabled) {
+  background: #276749;
+}
+
+.job-btn-deny {
+  background: #63171b;
+  color: #fed7d7;
+  border-color: #9b2c2c;
+}
+.job-btn-deny:hover:not(:disabled) {
+  background: #742a2a;
+}
+
+/* Mobile: each row becomes a stacked card */
+@media (max-width: 640px) {
+  .job-table thead {
+    display: none;
+  }
+  .job-table tr {
+    display: block;
+    border: 1px solid #2d3748;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+  }
+  .job-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 0.35rem 0.25rem;
+  }
+  .job-table td::before {
+    content: attr(data-label);
+    color: #a0aec0;
+    font-size: 0.8rem;
+    margin-right: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   nav {
     padding: 0.5rem 1rem;
